@@ -1,0 +1,29 @@
+Acessar CLI Airflow:
+ - Executa "docker ps"
+ - Pega o id do webserver ou scheduler
+ - executa comando "docker exec -it id /bin/bash
+ - estando dentro do airflow, executa o comando exit
+ - executar comando "astro dev bash"
+
+Comandos importantes:
+#Check if the metadata database can be reached
+airflow db check
+#Purge old records in database tables in archive table
+airflow db clean
+#Export archived data from the archive table (default csv)
+airflow db export-archived
+#Inicialize the database (if using docker or astro, not needed)
+airflow db init
+
+#Run subsections of a dag for a specified data range
+airflow dags backfill my_dag --reset-dagrun --rerun-failed-tasks --run-backwards -s 2024-01-01 -e 2024-01-10
+#Re-sync DAGs
+airflow dags reserialize
+#List all the dags
+airflow dags list
+
+#Test a task instance
+airflow tasks test my_dag my_task 2024-01-01
+
+#get list of airflow commands
+airflow cheat-sheet
