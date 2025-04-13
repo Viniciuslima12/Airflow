@@ -27,3 +27,16 @@ airflow tasks test my_dag my_task 2024-01-01
 
 #get list of airflow commands
 airflow cheat-sheet
+
+
+
+#HOW TO EXECUTE SPARK:===========
+1 - GO TO spark/master FOLDER
+2 - EXECUTE COMMAND docker build -t airflow/spark-master . - THIS NAME COMES FROM DOCKER-COMPOESE.OVERRRIDE FILE ON SPARK-MASTER SERVICE
+3 - GO TO spark/worker FOLDER
+4 - EXECUTE COMMAND docker build -t airflow/spark-worker . - THIS NAME COMES FROM DOCKER-COMPOESE.OVERRRIDE FILE ON SPARK-WORKER SERVICE
+
+# HOW TO EXECUTE AIRFLOW PROJECT:=========
+1 - THESE STEPS NEED TO BE DONE AFTER EXECUTING SPARK
+2 - GO TO ROOT FILE
+3 - EXECUTE ASTRO DEV START
