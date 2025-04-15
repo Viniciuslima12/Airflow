@@ -8,6 +8,18 @@ from datetime import datetime
     tags=['taskflow']
 )
 
-def taskflow()
+def taskflow():
+    
+    @task
+    def task_a():
+        print("Task A")
+        return 42
+    
+    @task
+    def task_b(value):
+        print("Task B")
+        return value
+    
+    task_b(task_a())
 
 taskflow()
