@@ -28,6 +28,7 @@ airflow tasks test my_dag my_task 2024-01-01
 #get list of airflow commands
 airflow cheat-sheet
 
+#BASE CONNECTION ON AIRFLOW FOR THIS PROJECT
 
 
 #HOW TO EXECUTE SPARK:===========
@@ -45,3 +46,14 @@ airflow cheat-sheet
 #TEST CONNECTION BETWEEN SERVICES ON DOCKER:========
 1 - DOCKER NETWORK LS
 2 - DOCKER INSPECT ID
+
+#CONNECTIONS
+#https://query1.finance.yahoo.com/
+#{
+#  "endpoint": "/v8/finance/chart/",
+#  "headers": {
+#    "Content-Type": "application/json",
+#    "User-Agent": "Mozilla/5.0",
+#    "Accept": "application/json"
+#  }
+#}
