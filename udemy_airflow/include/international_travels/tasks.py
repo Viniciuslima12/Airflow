@@ -1,7 +1,7 @@
 import requests
 from datetime import datetime
-import psycopg2
-from psycopg2 import sql
+from astro import sql as aql
+from astro.databases import Postgres
 
 
 def calcular_periodo_mandatos(qtd_mandatos=5):
@@ -63,41 +63,39 @@ def inserir_dados_postgres(dados, conexao_params, nome_tabela, schema):
         return
 
     # Conectando ao banco de dados
-    conexao = psycopg2.connect(
-        host=conexao_params["host"],
-        port=conexao_params["port"],
-        database=conexao_params["database"],
-        user=conexao_params["user"],
-        password=conexao_params["password"]
-    )
+    conexao = Postgres(**conexao_params)
 
     try:
-        with conexao:
-            with conexao.cursor() as cursor:
-                # Criação da tabela (se necessário)
-                cursor.execute(sql.SQL(f"""
-                    CREATE TABLE IF NOT EXISTS {schema}.{nome_tabela} (
-                        data DATE,
-                        valor NUMERIC
-                    );
-                """))
+        # Criação da tabela (se necessário)
+        create_table_query = f"""
+            CREATE TABLE IF NOT EXISTS {schema}.{nome_tabela} (
+                data DATE,
+                valor NUMERIC
+            );
+        """
+        aql.run(create_table_query, conn_id='postgres_conn_id')
 
-                # Preparar dados para inserção
-                registros = [
-                    (registro['data'], float(registro['valor'].replace(',', '.')))
-                    for registro in dados
-                ]
+        # Preparar dados para inserção
+        registros = [
+            (registro['data'], float(registro['valor'].replace(',', '.')))
+            for registro in dados
+        ]
 
-                # Inserir em lote
-                insert_query = sql.SQL(f"""
-                    INSERT INTO {schema}.{nome_tabela} (data, valor)
-                    VALUES (%s, %s)
-                """)
+        # Inserir os dados em lote utilizando o comando de inserção SQL
+        insert_query = f"""
+            INSERT INTO {schema}.{nome_tabela} (data, valor)
+            VALUES (%s, %s)
+        """
 
-                cursor.executemany(insert_query, registros)
-                print(f"{cursor.rowcount} registros inseridos na tabela '{nome_tabela}'.")
+        aql.run(insert_query, parameters=registros, conn_id='postgres_conn_id')
+        print(f"{len(registros)} registros inseridos na tabela '{nome_tabela}'.")
+
+    except Exception as e:
+        print(f"Erro ao inserir dados: {e}")
+
     finally:
-        conexao.close()
+        # A conexão é gerenciada automaticamente pelo Astro, então não há necessidade de fechá-la explicitamente.
+        pass
 
 
 
