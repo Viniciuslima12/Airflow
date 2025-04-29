@@ -42,6 +42,9 @@ airflow cheat-sheet
 2 - GO TO ROOT FILE
 3 - EXECUTE ASTRO DEV START
 
+# HOW TO TEST A DAG:======
+1 - astro dev run dags test DAG_NAME 2025-01-01
+
 
 #TEST CONNECTION BETWEEN SERVICES ON DOCKER:========
 1 - DOCKER NETWORK LS
